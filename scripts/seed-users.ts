@@ -2,8 +2,8 @@ import axios from 'axios';
 import { User } from '../src/users/entities/user.entity.js';
 
 const API_URL = 'http://localhost:3000/users';
-const TOTAL_USERS = 10000;
-const BATCH_SIZE = 100; // Create 100 users at a time
+const TOTAL_USERS = 10000000;
+const BATCH_SIZE = 1000; // Create 1000 users at a time
 const CONCURRENT_BATCHES = 10; // Run 10 batches in parallel
 
 async function createUser(index: number): Promise<User | null> {

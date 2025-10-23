@@ -8,6 +8,7 @@ import {
   Put,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import {
   CreateUserDto,
@@ -26,8 +27,9 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query('limit') limit?: string) {
+    const parsedLimit = limit ? parseInt(limit, 10) : 100;
+    return this.usersService.findAll(parsedLimit);
   }
 
   @Get('stats/distribution')

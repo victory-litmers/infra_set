@@ -164,155 +164,59 @@ services:
   # ==================== CASE STUDY 1.3: Redis Caching ====================
   # Redis master + replicas for high availability
 
-  redis-node-1:
+  redis-master:
     image: redis:7-alpine
-    container_name: redis-node-1
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
+    container_name: redis-master
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
-      - "16379:16379"
     volumes:
-      - redis_node1_data:/data
+      - redis_master_data:/data
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  redis-node-2:
+  redis-slave-1:
     image: redis:7-alpine
-    container_name: redis-node-2
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
+    container_name: redis-slave-1
+    command: redis-server --slaveof redis-master 6379 --appendonly yes
     ports:
       - "6380:6379"
-      - "16380:16379"
     volumes:
-      - redis_node2_data:/data
-    networks:
-      - app-network
-
-  redis-node-3:
-    image: redis:7-alpine
-    container_name: redis-node-3
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
-    ports:
-      - "6381:6379"
-      - "16381:16379"
-    volumes:
-      - redis_node3_data:/data
-    networks:
-      - app-network
-
-  redis-node-4:
-    image: redis:7-alpine
-    container_name: redis-node-4
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
-    ports:
-      - "6382:6379"
-      - "16382:16379"
-    volumes:
-      - redis_node4_data:/data
-    networks:
-      - app-network
-
-  redis-node-5:
-    image: redis:7-alpine
-    container_name: redis-node-5
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
-    ports:
-      - "6383:6379"
-      - "16383:16379"
-    volumes:
-      - redis_node5_data:/data
-    networks:
-      - app-network
-
-  redis-node-6:
-    image: redis:7-alpine
-    container_name: redis-node-6
-    command: >
-      redis-server
-      --port 6379
-      --cluster-enabled yes
-      --cluster-config-file nodes.conf
-      --cluster-node-timeout 5000
-      --appendonly yes
-      --requirepass redis123
-      --masterauth redis123
-    ports:
-      - "6384:6379"
-      - "16384:16379"
-    volumes:
-      - redis_node6_data:/data
-    networks:
-      - app-network
-
-  # ============================================
-  # REDIS CLUSTER SETUP (One-time initialization)
-  # ============================================
-  redis-cluster-init:
-    image: redis:7-alpine
-    container_name: redis-cluster-init
-    command: >
-      sh -c "
-      sleep 5 &&
-      redis-cli -a redis123 --cluster create
-      redis-node-1:6379
-      redis-node-2:6379
-      redis-node-3:6379
-      redis-node-4:6379
-      redis-node-5:6379
-      redis-node-6:6379
-      --cluster-replicas 1
-      --cluster-yes
-      "
+      - redis_slave1_data:/data
     networks:
       - app-network
     depends_on:
-      - redis-node-1
-      - redis-node-2
-      - redis-node-3
-      - redis-node-4
-      - redis-node-5
-      - redis-node-6
+      redis-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  redis-slave-2:
+    image: redis:7-alpine
+    container_name: redis-slave-2
+    command: redis-server --slaveof redis-master 6379 --appendonly yes
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_slave2_data:/data
+    networks:
+      - app-network
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   # # ==================== CASE STUDY 2.1: RabbitMQ ====================
   # # Message queue for async processing
 
@@ -459,12 +363,9 @@ volumes:
   slave2_data:
 
   # Redis
-  redis_node1_data:
-  redis_node2_data:
-  redis_node3_data:
-  redis_node4_data:
-  redis_node5_data:
-  redis_node6_data:
+  redis_master_data:
+  redis_slave1_data:
+  redis_slave2_data:
 
   # Message Queue
   rabbitmq_data:

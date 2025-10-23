@@ -19,9 +19,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed": "ts-node scripts/seed-users.ts",
-    "benchmark": "ts-node scripts/benchmark.ts",
-    "load-test": "k6 run scripts/load-tests/sharding.js"
+    "seed": "tsx ./scripts/seed-users.ts",
+    "benchmark": "tsx scripts/benchmark.ts",
+    "load-test": "k6 run scripts/load-tests/sharding.js",
+    "load-test:caching": "k6 run scripts/load-tests/caching.js"
   },
   "dependencies": {
     "@nestjs/bull": "^11.0.4",
@@ -37,7 +38,8 @@
     "axios": "^1.12.2",
     "bull": "^4.16.5",
     "cache-manager-redis-store": "^3.0.1",
-    "ioredis": "^5.8.1",
+    "ioredis": "^5.8.2",
+    "k6": "^0.0.0",
     "kafkajs": "^2.2.4",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
@@ -69,6 +71,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },

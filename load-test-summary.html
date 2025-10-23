@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Load Test Report - 1000 Concurrent Users</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+    h2 { color: #666; margin-top: 30px; }
+    .metric { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #4CAF50; }
+    .metric.warning { border-left-color: #FF9800; }
+    .metric.error { border-left-color: #f44336; }
+    .success { color: #4CAF50; font-weight: bold; }
+    .warning { color: #FF9800; font-weight: bold; }
+    .error { color: #f44336; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Load Test Report</h1>
+    <p><strong>Test Configuration:</strong> 1000 Concurrent Users</p>
+    <p><strong>Duration:</strong> ~15 minutes</p>
+    <p><strong>Date:</strong> 2025-10-23T05:02:35.373Z</p>
+    
+    <h2>📊 HTTP Performance</h2>
+    <div class="metric">
+      <strong>Total Requests:</strong> 496062
+    </div>
+    <div class="metric">
+      <strong>Requests/sec:</strong> 549.88
+    </div>
+    <div class="metric ">
+      <strong>Error Rate:</strong> 0.00%
+    </div>
+    
+    <h2>⚡ Response Times</h2>
+    <div class="metric">
+      <strong>P95:</strong> 331.26ms
+      <span class="error">✗ FAIL</span>
+    </div>
+    <div class="metric">
+      <strong>P99:</strong> 675.80ms
+      <span class="error">✗ FAIL</span>
+    </div>
+    
+    <h2>💾 Cache Performance</h2>
+    <div class="metric">
+      <strong>Cache Hit Rate:</strong> 98.88%
+      <span class="success">✓ PASS</span>
+    </div>
+  </div>
+</body>
+</html>
+  
