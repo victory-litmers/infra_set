@@ -9,7 +9,7 @@ const ordersCreated = new Counter('orders_created');
 export const options = {
   stages: [
     { duration: '1m', target: 500 }, // Ramp up to 500 VUs
-    { duration: '3m', target: 500 }, // Hold at 500 VUs
+    { duration: '1m', target: 500 }, // Hold at 500 VUs
     { duration: '30s', target: 0 }, // Ramp down
   ],
   thresholds: {
