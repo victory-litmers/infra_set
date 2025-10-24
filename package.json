@@ -22,7 +22,8 @@
     "seed": "tsx ./scripts/seed-users.ts",
     "benchmark": "tsx scripts/benchmark.ts",
     "load-test": "k6 run scripts/load-tests/sharding.js",
-    "load-test:caching": "k6 run scripts/load-tests/caching.js"
+    "load-test:caching": "k6 run scripts/load-tests/caching.js",
+    "load-test:rabbitmq": "k6 run scripts/load-tests/rabbitmq.js"
   },
   "dependencies": {
     "@nestjs/bull": "^11.0.4",
@@ -30,10 +31,11 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/microservices": "^11.1.6",
+    "@nestjs/microservices": "^11.1.7",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.1",
     "@nestjs/typeorm": "^11.0.0",
+    "amqp-connection-manager": "^5.0.0",
     "amqplib": "^0.10.9",
     "axios": "^1.12.2",
     "bull": "^4.16.5",
@@ -53,6 +55,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/amqplib": "^0.10.7",
     "@types/axios": "^0.9.36",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",

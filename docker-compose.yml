@@ -221,7 +221,7 @@ services:
   # # Message queue for async processing
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4.1.4-management-alpine
     container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: guest
